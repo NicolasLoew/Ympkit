@@ -60,8 +60,12 @@ function func_config {
         do
           case "$option" in
             "html")
-				printf "\\n\\nBacking up all /var/wwww/html to html.tar.gz\\n"
-				tar cvzf html.tar.gz /var/www/html
+				if [ -d "/var/www/html" ]; then
+					printf "\\n\\nBacking up all /var/wwww/html to html.tar.gz\\n"
+					tar cvzf html.tar.gz /var/www/html
+				else
+					printf "\\n\\n/var/www/html doesn't exist on your system.\\n"
+				fi
 				exit 0
              	;;
             "MySQL")
