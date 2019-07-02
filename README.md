@@ -19,3 +19,5 @@ So far this is just an idea of mine as of course… I could navigate to GitHub a
 
 **Credits**:
 I'd like to thank each and everyone that has contributed to the project or inspired me here on GitHub, on HB or LET. Also a BIG THANK YOU to the people that have made and continue to contribute to  [awesome-selfhosted](https://github.com/Kickball/awesome-selfhosted) . You guys are awesome!
+
+Special Thanks to: Wolveix
