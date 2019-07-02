@@ -1,5 +1,4 @@
 #!/bin/bash
-#first version of the script focused on Debian
 # A script made my Ympker@LET / Ympker@HB. This script basically only represents a collection of many cool projects that truly deserve the credits.
 # The sources/projects will always be linked though.
 echo "###################################################################################"
@@ -88,7 +87,7 @@ do
 	9)
 		echo "Search for 'Port' and change accordingly."
 		sleep 3
-		nano  /etc/ssh/sshd_config
+		nano /etc/ssh/sshd_config
 		echo "Restarting SSH Service.."
 		/etc/init.d/ssh restart
 		break
@@ -96,7 +95,7 @@ do
 	10)
 		echo "Search for and change to: 'PermitRootLogin no'"
 		sleep 3
-		cat  /etc/ssh/sshd_config
+		nano /etc/ssh/sshd_config
 		echo "Restarting SSH Service.."
 		/etc/init.d/ssh restart
 		break
@@ -189,12 +188,8 @@ do
 		break
 		;;
 	24)
-		echo "Preparing to install Netdata.."
-		curl -Ss 'https://raw.githubusercontent.com/netdata/netdata-demo-site/master/install-required-packages.sh' >/tmp/kickstart.sh && bash /tmp/kickstart.sh -i netdata-all
-		git clone https://github.com/netdata/netdata.git --depth=100
-		cd netdata
-		./netdata-installer.sh
-		break #https://docs.netdata.cloud/packaging/installer/#prepare-your-system
+		bash <(curl -Ss https://my-netdata.io/kickstart.sh)
+		break #https://docs.netdata.cloud/packaging/installer/#one-line-installation
 		;;
 	25)
 		echo "Sorry. This feature isn't ready yet. Please come back later!"
