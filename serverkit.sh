@@ -2,31 +2,71 @@
 # A script made my Ympker@LET / Ympker@HB. This script basically only represents a collection of many cool projects that truly deserve the credits.
 # The sources/projects will always be linked though.
 
-echo "###################################################################################"
-echo "Welcome to Ympker's Multi-Purpose Server Kit for Debian. Use at your own risk.
-SYSTEM TASKS:																															
- 1) Update & Upgrade										
- 2) Reboot													
- 3) Display System Usage (htop)									
- 4) Show Network Traffic										
- 5) Show CPU Info											
- 6) List Drives														
- 7) Show Kernel Info															
- 8) Show Syslog													
- 9) Change SSH Port	
- 10) Disable Root Login															
- 11) Create SSH Key Pair										
-	
-INSTALL WEB STACKS:												
- 12) Install WordPress (EasyEngine)														
- 13) Create WP Site with Let's Encrypt (EasyEngine needs to be installed)														
- 14) Install LAMP Stack (from lempstack.com)										
- 15) Install LNMPA Stack (from lempstack.com)												
-  												
- INSTALL CONTROL PANEL:																												
- 16) Install ISPConfig (Debian 9)																						
- 17) Install HestiaCP																					
- 18) Install Keyhelp
+OS="`uname`"
+case "$OS" in
+  'FreeBSD' | 'Linux' | 'NetBSD' | 'OpenBSD')
+    if [ ! -f "/etc/os-release" ]; then
+      printf "\\nIt doesn't look like your distro is supported.\\nCreate an issue here: https://github.com/NicolasLoew/Ympkit/issues/new\\n"
+      exit
+    else
+      distro=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
+    fi
+    ;;
+  'Darwin')
+    distro='macOS'
+    ;;
+  *)
+    printf "\\nIt doesn't look like your distro is supported.\\nCreate an issue here: https://github.com/NicolasLoew/Ympkit/issues/new\\n"
+    exit
+    ;;
+esac
+case $distro in
+  '"CentOS Linux"')
+    packages="yum -q -y"
+    ;;
+  '"Debian GNU/Linux"' | '"Linux Mint"' | '"Ubuntu"')
+    packages="apt-get -qq -y"
+    ;;
+  'macOS')
+    if [ ! $(command -v brew) ]; then
+      printf "\\nIt doesn't look like you have brew installed.\\nFind out more here: https://brew.sh/.\\n"
+      exit
+    else
+      packages=$(command -v brew)
+    fi
+    ;;
+  *)
+    printf "\\nIt doesn't look like your distro is supported.\\nCreate an issue here: https://github.com/NicolasLoew/Ympkit/issues/new\\n"
+    exit
+    ;;
+esac
+
+printf "\\n###################################################################################"
+printf "\\nWelcome to Ympker's Multi-Purpose Server Kit. Use at your own risk.\\n"
+
+echo "SYSTEM TASKS:
+1) Update & Upgrade
+2) Reboot
+3) Display System Usage (htop)
+4) Show Network Traffic
+5) Show CPU Info
+6) List Drives
+7) Show Kernel Info
+8) Show Syslog
+9) Change SSH Port
+10) Disable Root Login
+11) Create SSH Key Pair
+
+INSTALL WEB STACKS:
+12) Install WordPress (EasyEngine)
+13) Create WP Site with Let's Encrypt (EasyEngine needs to be installed)
+14) Install LAMP Stack (from lempstack.com)
+15) Install LNMPA Stack (from lempstack.com)
+
+INSTALL CONTROL PANEL:
+16) Install ISPConfig (Debian 9)
+17) Install HestiaCP
+18) Install Keyhelp
 INSTALL GAMESERVERS:
 19) Install Minecraft (LGSM, Debian 8+)
 20) Install CS:GO (LGSM, Debian 8+)
@@ -41,7 +81,7 @@ INSTALL OTHER APPS:
 26) SETUP Seafile
 27) SETUP Youtube-dl
 28) Run Geekbench
-29) Run Bench.sh Benchmark"																						
+29) Run Bench.sh Benchmark"
 echo "###################################################################################"
 echo "Please choose what an option (1-18)."
 
@@ -50,9 +90,8 @@ do
   read -r INPUT_STRING
   case "$INPUT_STRING" in
 	1)
-		echo "Updating the system.."
-		apt-get -y update 
-		apt-get -y upgrade
+		printf "Updating the system...\\n"
+		$packages update && $packages upgrade
 		break
 		;;
 	2)

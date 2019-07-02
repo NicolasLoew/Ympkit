@@ -50,4 +50,4 @@ esac
 curl -O https://raw.githubusercontent.com/NicolasLoew/Ympkit/master/serverkit.sh 2>/dev/null
 chmod u+x serverkit.sh
 
-printf "\\n\\e[32mSetup completed!\\nRun the toolkit via: ./serverkit.sh"
+printf "\\n\\e[32mSetup completed!\\nRun the toolkit via: ./serverkit.sh\\n"
