@@ -41,6 +41,12 @@ case $distro in
     ;;
 esac
 
+function set_config(){
+    ovalue=$(echo $1 | sed 's_/_\\/_g')
+    nvalue=$(echo $2 | sed 's_/_\\/_g')
+    sed -ie "s/$ovalue/$nvalue/g" "$3"
+}
+
 printf "\\n###################################################################################"
 printf "\\nWelcome to Ympker's Multi-Purpose Server Kit. Use at your own risk.\\n"
 
@@ -128,10 +134,8 @@ do
 		break
 		;;
 	10)
-		echo "Search for and change to: 'PermitRootLogin no'"
-		sleep 3
-		cat  /etc/ssh/sshd_config
-		echo "Restarting SSH Service.."
+		printf "Disabling root access and restarting SSH...\\n"
+		set_config "PermitRootLogin yes" "PermitRootLogin no" "/etc/ssh/sshd_config"
 		/etc/init.d/ssh restart
 		break
 		;;
