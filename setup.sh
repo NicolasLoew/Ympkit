@@ -11,7 +11,7 @@ sleep 3
 apt-get install nano
 sleep 3
 cd
-wget 
+wget --no-check-certificate https://raw.githubusercontent.com/NicolasLoew/Ympkit/master/serverkit.sh
 sleep 5
 sudo chmod +x serverkit.sh
 sleep 3
