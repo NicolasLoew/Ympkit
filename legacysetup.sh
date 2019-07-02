@@ -14,11 +14,11 @@ sleep 3s
 apt-get install nano
 sleep 3s
 cd
-wget 
+wget https://raw.githubusercontent.com/NicolasLoew/Ympkit/master/legacy.sh
 sleep 5s
-chmod +x serverkit.sh
+chmod +x legacy.sh
 sleep 3s
 echo "All done! Start Ympker's Serverkit by running the following command:"
 echo "#################"
-echo "sh serverkit.sh"
+echo "sh legacy.sh"
 echo "#################"
