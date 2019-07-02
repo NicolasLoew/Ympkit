@@ -87,9 +87,10 @@ INSTALL OTHER APPS:
 26) SETUP Seafile
 27) SETUP Youtube-dl
 28) Run Geekbench
-29) Run Bench.sh Benchmark"
+29) Run Bench.sh Benchmark
+30) Run Serverscope.io Benchmark"
 echo "###################################################################################"
-echo "Please choose what an option (1-18)."
+echo "Please choose what an option (1-30)."
 
 while :
 do
@@ -265,14 +266,14 @@ do
 		;;
 	29)
 		dpkg --add-architecture i386 
-		apt-get update
-		install libc6:i386 libstdc++6:i386
-		wget http://cdn.primatelabs.com/Geekbench-3.4.2-Linux.tar.gz
-		tar -zxvf Geekbench-3.4.2-Linux.tar.gz
-		cd dist/Geekbench-3.4.2-Linux/ || exit
+		$packages update
+		$packages install libc6:i386 libstdc++6:i386
+		curl -O http://cdn.geekbench.com/Geekbench-4.3.3-Linux.tar.gz > /dev/null
+		tar -zxvf Geekbench-4.3.3-Linux.tar.gz
+		cd dist/Geekbench-4.3.3-Linux/ || exit
 		./geekbench
 		break
-		#http://support.primatelabs.com/kb/geekbench/installing-geekbench-3-on-linux
+		#http://support.primatelabs.com/kb/geekbench/installing-geekbench-4-on-linux
 		;;
 	30)
 		wget -qO- bench.sh | bash
