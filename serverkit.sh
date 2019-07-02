@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# A script made my Ympker@LET / Ympker@HB. This script basically only represents a collection of many cool projects that truly deserve the credits.
+# A script made by Ympker@LET / Ympker@HB. This script basically only represents a collection of many cool projects that truly deserve the credits.
 # The sources/projects will always be linked though.
 
 OS="`uname`"
