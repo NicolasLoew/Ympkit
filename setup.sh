@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-printf "\\e[93m=== Ympkit v0.0.1 ==="
+printf "\\e[93m=== Ympkit v0.2 ==="
 printf "\\n=== https://github.com/NicolasLoew/Ympkit ===\\e[0m"
 OS="`uname`"
 case "$OS" in
@@ -50,4 +50,22 @@ esac
 curl -O https://raw.githubusercontent.com/NicolasLoew/Ympkit/master/serverkit.sh 2>/dev/null
 chmod u+x serverkit.sh
 
-printf "\\n\\e[32mSetup completed!\\nRun the toolkit via: ./serverkit.sh\\n"
+case "$OS" in
+  'Linux')
+    chmod 755 serverkit.sh
+    chown root:root serverkit.sh
+    mv serverkit.sh /usr/bin/ympkit
+    ;;
+  'FreeBSD' | 'OpenBSD' | 'NetBSD')
+    chown root:wheel serverkit.sh
+    mv serverkit.sh /usr/bin/ympkit
+    ;;
+  'Darwin' | 'OSX')
+    mkdir -p /usr/local/bin
+    mv serverkit.sh /usr/local/bin/ympkit
+    ;;
+  *)
+    mv serverkit.sh /usr/local/bin/ympkit
+    ;;
+esac
+printf "\\n\\e[32mSetup completed!\\nRun the toolkit using 'ympkit'.\\n"

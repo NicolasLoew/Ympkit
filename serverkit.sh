@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # A script made by Ympker@LET / Ympker@HB. This script basically only represents a collection of many cool projects that truly deserve the credits.
 # The sources/projects will always be linked though.
-
+HEADER_TEXT="\\e[93m=== Ympkit v0.2 - https://github.com/NicolasLoew/Ympkit ===\\e[0m\\nWelcome to Ympker's Multi-Purpose Server Kit. Use at your own risk.\\n\\n"
+set -e
 OS="`uname`"
 case "$OS" in
   'FreeBSD' | 'Linux' | 'NetBSD' | 'OpenBSD')
@@ -47,288 +48,279 @@ function set_config(){
     sed -ie "s/$ovalue/$nvalue/g" "$3"
 }
 
-printf "\\n###################################################################################"
-printf "\\nWelcome to Ympker's Multi-Purpose Server Kit. Use at your own risk.\\n"
+function func_config {
+  printf "$HEADER_TEXT"
+  printf "\\nWhat menu would you like to access?\\n"
+  select option in "Backup Tasks (html, MySQL)" "Benchmarks (Bench.sh, GeekBench, ServerScope)" "Control Panels (HestiaCP, ISPConfig, Keyhelp)" "Game Servers (CS:GO, Minecraft)" "Monitoring (Netdata, ServerMon)" "System Tasks (Logs, SSH, Stats)" "Web Stacks (LAMP, LNMPA, Wordpress)" "Other (OpenVPN, OwnCloud, Seafile, Youtube-dl)" "Exit"
+  do
+    case "$option" in
+      "Backup Tasks (html, MySQL)")
+        printf "\\nWhich backup task do you want to run?\\n"
+        select option in "html" "MySQL" "Exit"
+        do
+          case "$option" in
+            "html")
+				printf "\\n\\nBacking up all /var/wwww/html to html.tar.gz\\n"
+				tar cvzf html.tar.gz /var/www/html
+				exit 0
+             	;;
+            "MySQL")
+				printf "\\n\\nBacking up all MySQL databases to dump.sql\\n"
+				mysqldump -u root -ptecmint --all-databases > dump.sql
+				exit 0
+				;;
+            "Exit")
+				exit 0
+				;;
+          esac
+        done
+        ;;
+	  "Benchmarks (Bench.sh, GeekBench, ServerScope)")
+        printf "\\nWhich benchmark do you want to run?\\n"
+        select option in "Bench.sh" "GeekBench" "ServerScope" "Exit"
+        do
+          case "$option" in
+            "Bench.sh")
+				printf "\\n\\nDownloading Bench.sh...\\n"
+				wget -qO- bench.sh | bash
+				exit 0
+             	;;
+            "GeekBench")
+				printf "\\n\\nDownloading GeekBench...\\n"
+				dpkg --add-architecture i386 
+				$packages update
+				$packages install libc6:i386 libstdc++6:i386
+				curl -O http://cdn.geekbench.com/Geekbench-4.3.3-Linux.tar.gz 2>/dev/null
+				tar -zxvf Geekbench-4.3.3-Linux.tar.gz
+				cd dist/Geekbench-4.3.3-Linux/ || exit
+				./geekbench
+				exit 0
+				;;
+			"ServerScope")
+				printf "\\n\\nSorry, this hasn't been implemented yet.\\n"
+				exit 0
+             	;;
+            "Exit")
+				exit 0
+				;;
+          esac
+        done
+        ;;
+	  "Control Panels (HestiaCP, ISPConfig, Keyhelp)")
+        printf "\\nWhich control panel do you want to install?\\n"
+        select option in "HestiaCP" "ISPConfig" "Keyhelp" "Exit"
+        do
+          case "$option" in
+            "HestiaCP")
+				printf "\\n\\nInstalling HestiaCP...\\n"
+				curl https://raw.githubusercontent.com/hestiacp/hestiacp/master/install/hst-install.sh 2>/dev/null | bash
+				exit 0
+             	;;
+            "ISPConfig")
+				printf "\\n\\nDownloading and installing ISPConfig...\\n"
+				cd /tmp || exit; wget --no-check-certificate -O installer.tgz "https://github.com/servisys/ispconfig_setup/tarball/master"; tar zxvf installer.tgz; cd ./*ispconfig* || exit; bash install.sh
+				exit 0
+				;;
+			"Keyhelp")
+				printf "\\n\\nDownloading and installing Keyhelp...\\n"
+				curl https://install.keyhelp.de/get_keyhelp.php 2>/dev/null | bash
+				exit 0
+             	;;
+            "Exit")
+				exit 0
+				;;
+          esac
+        done
+        ;;
+	  "Game Servers (CS:GO, Minecraft)")
+        printf "\\nWhich game server do you want to install?\\n"
+        select option in "CS:GO" "Minecraft" "Exit"
+        do
+          case "$option" in
+            "CS:GO")
+				printf "\\n\\nInstalling CS:GO server dependencies...\\n"
+				dpkg --add-architecture i386
+				$packages update
+				$packages install bc binutils bsdmainutils bzip2 ca-certificates file gzip jq lib32gcc1 libstdc++6 libstdc++6:i386 mailutils postfix python tmux unzip util-linux
+				printf "\\n\\nCreating user 'csgoserver'"
+				adduser csgoserver
+				su - csgoserver
+				printf "\\nSetting up LGSM..."
+				curl linuxgsm.sh https://linuxgsm.sh 2>/dev/null | bash csgoserver
+				printf "\\nRunning the installer..."
+				./csgoserver install
+				pritnf "\\n\\nServer install successful!\\nRun './csgoserver' to get started."
+				exit 0
+             	;;
+            "Minecraft")
+				printf "\\n\\nInstalling Minecraft server dependencies...\\n"
+				dpkg --add-architecture i386
+				$packages update
+				$packages install bc binutils bsdmainutils bzip2 gzip ca-certificates default-jre file jq mailutils postfix python tmux util-linux
+				printf "\\n\\nCreating user 'mcserver'"
+				adduser mcserver
+				su - mcserver
+				printf "\\nSetting up LGSM..."
+				curl linuxgsm.sh https://linuxgsm.sh 2>/dev/null | bash mcserver
+				printf "\\nRunning the installer..."
+				./mcserver install
+				pritnf "\\n\\nServer install successful!\\nRun './mcserver' to get started."
+				exit 0
+				;;
+            "Exit")
+				exit 0
+				;;
+          esac
+        done
+        ;;
+	  "Monitoring (Netdata, ServerMon)")
+        printf "\\nWhich monitoring utility do you want to install?\\n"
+        select option in "Netdata" "ServerMon" "Exit"
+        do
+          case "$option" in
+            "Netdata")
+				printf "\\n\\nInstalling Netdata...\\n"
+				curl https://my-netdata.io/kickstart.sh 2>/dev/null | bash
+				exit 0
+             	;;
+            "ServerMon")
+				printf "\\n\\nSorry, this hasn't been implemented yet.\\n"
+				exit 0
+				;;
+            "Exit")
+				exit 0
+				;;
+          esac
+        done
+        ;;
+	  "System Tasks (Logs, SSH, Stats)")
+        printf "\\nWhich monitoring utility do you want to install?\\n"
+        select option in "CPU Info" "Kernel Info" "List Drives" "Network Monitor" "Resource Monitor" "SSH: Change Port" "SSH: Create Key Pair" "SSH: Disable Root Login" "Show System Log" "Update & Upgrade" "Exit"
+        do
+          case "$option" in
+            "CPU Info")
+				cat /proc/cpuinfo
+				exit 0
+				;;
+			"Kernel Info")
+				uname -a
+				exit 0
+				;;
+			"List Drives")
+				lsblk
+				exit 0
+				;;
+			"Network Monitor")
+				nload
+				exit 0
+				;;
+			"Resource Monitor")
+				htop
+				exit 0
+				;;
+			"SSH: Change Port")
+				printf "Search for 'Port' and change accordingly:\\n"
+				sleep 3
+				nano  /etc/ssh/sshd_config
+				printf "Restarting SSH Service...\\n"
+				/etc/init.d/ssh restart
+				exit 0
+				;;
+			"SSH: Create Key Pair")
+				printf "Creating the key pair...\\n"
+				ssh-keygen
+				exit 0
+				;;
+			"SSH: Disable Root Login")
+				printf "Disabling root access and restarting SSH...\\n"
+				set_config "PermitRootLogin yes" "PermitRootLogin no" "/etc/ssh/sshd_config"
+				/etc/init.d/ssh restart
+				exit 0
+				;;
+			"Show System Log")
+				cat /var/log/syslog
+				exit 0
+				;;
+			"Update & Upgrade")
+				printf "Updating and upgrading all packages...\\n"
+				$packages update && $packages upgrade
+				exit 0
+				;;
+            "Exit")
+				exit 0
+				;;
+          esac
+        done
+        ;;
+	  "Web Stacks (LAMP, LNMPA, Wordpress)")
+        printf "\\nWhich web stack do you want to setup?\\n"
+        select option in "LAMP" "LNMPA" "Wordpress" "Exit"
+        do
+          case "$option" in
+            "LAMP")
+				printf "\\n\\nInstalling LAMP stack...\\nMake sure to take note of the MySQL root password, and to change it after the server reboots!\\n\\nRoot password: '3oxfkanf'\\n\\n"
+				sleep 30
+				wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --apache_option 1 --apache_mpm_option 1 --apache_mode_option 1 --php_option 7 --phpcache_option 1 --phpmyadmin  --db_option 2 --dbinstallmethod 1 --dbrootpwd 3oxfkanf --pureftpd  --redis  --memcached  --iptables  --reboot 
+				exit 0
+             	;;
+            "LNMPA")
+				printf "\\n\\nInstalling LNMPA stack...\\nMake sure to take note of the MySQL root password, and to change it after the server reboots!\\n\\nRoot password: '3oxfkanf'\\n\\n"
+				sleep 30
+				wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --nginx_option 1 --apache_option 1 --apache_mpm_option 1 --apache_mode_option 1 --php_option 7 --phpcache_option 1 --phpmyadmin  --db_option 2 --dbinstallmethod 1 --dbrootpwd 3oxfkanf --pureftpd  --redis  --memcached  --iptables  --reboot 
+				exit 0
+				;;
+			"Wordpress")
+				printf "\\nFor SSL via LE, run 'ee site create example.com --wp --letsencrypt' once EasyEngine has been installed\\nDownloading EasyEngine...\\n"
+				curl https://rt.cx/ee4 2>/dev/null | bash
+				exit 0
+				;;
+            "Exit")
+				exit 0
+				;;
+          esac
+        done
+        ;;
+	  "Other (OpenVPN, OwnCloud, Seafile, Youtube-dl)")
+        printf "\\nWhich service do you want to setup?\\n"
+        select option in "OwnCloud" "Seafile" "Youtube-dl" "Exit"
+        do
+          case "$option" in
+			"OpenVPN")
+				printf "\\n\\nInstalling OpenVPN via Anrgistan...\\n"
+				curl https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh 2>/dev/null | bash
+				exit 0
+             	;;
+            "OwnCloud")
+				printf "\\n\\nSorry, this hasn't been implemented yet.\\n"
+				exit 0
+             	;;
+            "Seafile")
+				printf "\\n\\nSorry, this hasn't been implemented yet.\\n"
+				exit 0
+				;;
+			"Youtube-dl")
+				printf "\\n\\nSorry, this hasn't been implemented yet.\\n"
+				exit 0
+				;;
+            "Exit")
+				exit 0
+				;;
+          esac
+        done
+        ;;
+      "Exit")
+        exit 0
+        ;;
+    esac
+  done
+}
 
-echo "SYSTEM TASKS:
-1) Update & Upgrade
-2) Reboot
-3) Display System Usage (htop)
-4) Show Network Traffic
-5) Show CPU Info
-6) List Drives
-7) Show Kernel Info
-8) Show Syslog
-9) Change SSH Port
-10) Disable Root Login
-11) Create SSH Key Pair
-
-INSTALL WEB STACKS:
-12) Install WordPress (EasyEngine)
-13) Create WP Site with Let's Encrypt (EasyEngine needs to be installed)
-14) Install LAMP Stack (from lempstack.com)
-15) Install LNMPA Stack (from lempstack.com)
-
-INSTALL CONTROL PANEL:
-16) Install ISPConfig (Debian 9)
-17) Install HestiaCP
-18) Install Keyhelp
-INSTALL GAMESERVERS:
-19) Install Minecraft (LGSM, Debian 8+)
-20) Install CS:GO (LGSM, Debian 8+)
-BACKUP TASKS:
-21) Backup /var/www/html 
-22) MySQL Dump
-INSTALL MONITORING:
-23) PHP ServerMon
-24) Netdata
-INSTALL OTHER APPS:
-25) SETUP Owncloud26. SETUP OpenVPN (Angristan)
-26) SETUP Seafile
-27) SETUP Youtube-dl
-28) Run Geekbench
-29) Run Bench.sh Benchmark
-30) Run Serverscope.io Benchmark"
-echo "###################################################################################"
-echo "Please choose what an option (1-30)."
-
-while :
-do
-  read -r INPUT_STRING
-  case "$INPUT_STRING" in
-	1)
-		printf "Updating the system...\\n"
-		$packages update && $packages upgrade
-		break
-		;;
-	2)
-		reboot
-		;;
-	3)
-		top
-		;;
-	4)
-		nload
-		break
-		;;
-	5)
-		cat /proc/cpuinfo
-		break
-		;;
-	6)
-		lsblk
-		;;
-	7)
-		uname -a
-		break
-		;;
-	8)
-		cat /var/log/syslog
-		break
-		;;
-	9)
-		echo "Search for 'Port' and change accordingly."
-		sleep 3
-		nano  /etc/ssh/sshd_config
-		echo "Restarting SSH Service.."
-		/etc/init.d/ssh restart
-		break
-		;;
-	10)
-		printf "Disabling root access and restarting SSH...\\n"
-		set_config "PermitRootLogin yes" "PermitRootLogin no" "/etc/ssh/sshd_config"
-		/etc/init.d/ssh restart
-		break
-		;;
-			
-	11)
-		echo "This will only create the SSH Key Pair. You will have to do the following steps by yourself."
-		sudo ssh-keygen
-		break
-		#when in doubt check: https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-debian-9 
-		;;
-	12)
-		wget -qO ee https://rt.cx/ee4 && sudo bash ee
-		#https://easyengine.io
-		break
-		;;
-	13)
-		echo "Use the following command after EE has been installed: 'ee site create example.com --wp --letsencrypt'"
-		break
-		#https://easyengine.io/docs/lets-encrypt/
-		;;
-	14)
-		echo "LAMP Stack will be installed shortly.."
-		echo "Please WRITE DOWN the MySQL root password as the server will reboot at the end of the task. Make sure to change it after the reboot!!!"
-		sleep 5
-		echo "Root password: '3oxfkanf' "
-		sleep 20
-		wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --apache_option 1 --apache_mpm_option 1 --apache_mode_option 1 --php_option 7 --phpcache_option 1 --phpmyadmin  --db_option 2 --dbinstallmethod 1 --dbrootpwd 3oxfkanf --pureftpd  --redis  --memcached  --iptables  --reboot 
-		break
-		#source: https://lempstack.com/auto/
-		;;
-	15)
-		echo "LNMPA Stack will be installed shortly.."
-		echo "Please WRITE DOWN the MySQL Root Password as the server will reboot at the end of the task. Make sure to change it after the reboot!!!"
-		sleep 5
-		echo "Root password: '3oxfkanf' "
-		sleep 20
-		wget -c http://mirrors.linuxeye.com/oneinstack-full.tar.gz && tar xzf oneinstack-full.tar.gz && ./oneinstack/install.sh --nginx_option 1 --apache_option 1 --apache_mpm_option 1 --apache_mode_option 1 --php_option 7 --phpcache_option 1 --phpmyadmin  --db_option 2 --dbinstallmethod 1 --dbrootpwd 3oxfkanf --pureftpd  --redis  --memcached  --iptables  --reboot 
-		break
-		#source: https://lempstack.com/auto/
-		;;
-	16)
-		cd /tmp || exit; wget --no-check-certificate -O installer.tgz "https://github.com/servisys/ispconfig_setup/tarball/master"; tar zxvf installer.tgz; cd ./*ispconfig* || exit; bash install.sh
-		break
-		#https://www.howtoforge.com/tutorial/ispconfig-automated-install-script/
-		;;
-	17)
-		wget https://raw.githubusercontent.com/hestiacp/hestiacp/master/install/hst-install.sh
-		bash hst-install.sh
-		break
-		;;
-	18)
-		wget https://install.keyhelp.de/get_keyhelp.php -O installkeyhelp.sh ; bash installkeyhelp.sh ;
-		break
-		#https://www.keyhelp.de/en/
-		;;
-	19)
-		echo "Installing Dependencies.. Please make sure you are running Debian 8 or higher on a 64bit system."
-		dpkg --add-architecture i386; sudo apt update; sudo apt install mailutils postfix curl wget file bzip2 gzip unzip bsdmainutils python util-linux ca-certificates binutils bc jq tmux default-jre
-		sleep 3
-		echo "Creating user 'mcserver'and logging in."
-		adduser mcserver
-		sleep 3
-		su - mcserver
-		echo "Downloading LGSM.."
-		wget -O linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgsm.sh mcserver
-		echo "Running the installer.."
-		./mcserver install
-		echo "Done! Type './mcserver' to get started."
-		break
-		#Refer to https://linuxgsm.com/lgsm/mcserver/
-		;;
-	20)
-		echo "Installing Dependencies.. Please make sure you are running Debian 8 or higher on a 64bit system."
-		dpkg --add-architecture i386; sudo apt update; sudo apt install mailutils postfix curl wget file bzip2 gzip unzip bsdmainutils python util-linux ca-certificates binutils bc jq tmux lib32gcc1 libstdc++6 libstdc++6:i386
-		sleep 3
-		echo "Creating user 'csgoserver'and logging in."
-		adduser csgoserver
-		sleep 3
-		su - csgoserver
-		echo "Downloading LGSM.."
-		wget -O linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgsm.sh csgoserver
-		echo "Running the installer.."
-		./csgoserver install
-		echo "Done! Type './csgoserver' to get started."
-		break
-		#Refer to https://linuxgsm.com/lgsm/csgoserver/
-		;;
-	21)
-		zip -r backup.zip /path/to/folder1
-		echo "Done! Created 'backup.zip'."
-		break
-		;;
-	22) echo "Initiating MySQL Backup of all Databases.."
-		mysqldump -u root -ptecmint --all-databases > all-databases.sql
-		break
-		;;
-	23)
-		echo "Sorry. This feature isn't ready yet. Please come back later!"
-		break
-		;;
-	24)
-		bash <(curl -Ss https://my-netdata.io/kickstart.sh)
-		break
-		#https://docs.netdata.cloud/packaging/installer/#one-line-installation
-		;;
-	25)
-		echo "Sorry. This feature isn't ready yet. Please come back later!"
-		break
-		
-		;;
-	26)
-		curl -O https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh
-		chmod +x openvpn-install.sh
-		./openvpn-install.sh
-		break
-		
-		;;
-	27)
-		echo "Sorry. This feature isn't ready yet. Please come back later!"
-		break
-		
-		;;
-	28)
-		echo "Sorry. This feature isn't ready yet. Please come back later!"
-		break
-		
-		;;
-	29)
-		dpkg --add-architecture i386 
-		$packages update
-		$packages install libc6:i386 libstdc++6:i386
-		curl -O http://cdn.geekbench.com/Geekbench-4.3.3-Linux.tar.gz > /dev/null
-		tar -zxvf Geekbench-4.3.3-Linux.tar.gz
-		cd dist/Geekbench-4.3.3-Linux/ || exit
-		./geekbench
-		break
-		#http://support.primatelabs.com/kb/geekbench/installing-geekbench-4-on-linux
-		;;
-	30)
-		wget -qO- bench.sh | bash
-		break
-		;;				
-	*)
-		echo "Sorry, I don't understand. Please try again."
-		;;
-  esac
-done
-echo 
-echo "Thank you for using Ympker's Serverkit! Please report any bugs on GitHub."
-
-
-#listoptions
-######SYSTEM TASKS
-#1. Update & Upgrade
-#2. Reboot
-#3. Display System Usage (top/htop)
-#4. Show Network Traffic
-#5. Show CPU Info
-#6. Show CPU Flags
-#7. Show Kernel Info
-#8. Show Syslog
-#9. Change SSH Port
-#10. Disable Root Login
-#11. Create SSH Key
-
-######INSTALL WEB STACKS
-#12. Install WordPress (EasyEngine)
-#13. Install WordPress and Let's Encrypt
-#14. Install LAMP Stack (from lempstack.com)
-#15. Install LNMPA Stack (from lempstack.com)
-
-######INSTALL CONTROL PANELS
-#16. Install ISPConfig 3
-#17. Install HestiaCP
-#18. Install Keyhelp
-
-#######INSTALL GAMESERVERS
-#19. Install Minecraft (LGSM, Debian 8+)
-#20. Install CS:GO (LGSM, Debian 8+)
-
-#####BACKUP TASKS
-#21. Backup public_html
-#22. MySQL Dump
-
-#####INSTALL MONITORING
-#23. PHP ServerMon
-#24. Netdata
-
-#####INSTALL OTHER APPS
-#25. SETUP Owncloud
-#26. SETUP OpenVPN (Angristan)
-#27. SETUP Seafile
-#28. SETUP Youtube-dl
-#29. Run Geekbench
-#30. Run Serverscope.io Benchmark
+if [ -z "$1" ]; then
+	func_config
+else
+	if [ "$1" = "update" ]; then
+		curl https://raw.githubusercontent.com/NicolasLoew/Ympkit/master/setup.sh 2>/dev/null | bash
+	else
+		printf "Command not recognised.\\n"
+	fi
+fi
