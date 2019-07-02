@@ -7,5 +7,7 @@ This script is heavily dependant on other projects as it will just clone and exe
 Usage instructions:
 
 wget --no-check-certificate https://raw.githubusercontent.com/NicolasLoew/Ympkit/master/setup.sh
+
 chmod +x setup.sh
+
 sh setup.sh
