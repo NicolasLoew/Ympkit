@@ -1,9 +1,9 @@
 #!/bin/bash
 # A script made my Ympker@LET / Ympker@HB. This script basically only represents a collection of many cool projects that truly deserve the credits.
 # The sources/projects will always be linked though.
+
 echo "###################################################################################"
 echo "Welcome to Ympker's Multi-Purpose Server Kit for Debian. Use at your own risk.
-
 SYSTEM TASKS:																															
  1) Update & Upgrade										
  2) Reboot													
@@ -27,19 +27,15 @@ INSTALL WEB STACKS:
  16) Install ISPConfig (Debian 9)																						
  17) Install HestiaCP																					
  18) Install Keyhelp
-
 INSTALL GAMESERVERS:
 19) Install Minecraft (LGSM, Debian 8+)
 20) Install CS:GO (LGSM, Debian 8+)
-
 BACKUP TASKS:
 21) Backup /var/www/html 
 22) MySQL Dump
-
 INSTALL MONITORING:
 23) PHP ServerMon
 24) Netdata
-
 INSTALL OTHER APPS:
 25) SETUP Owncloud26. SETUP OpenVPN (Angristan)
 26) SETUP Seafile
@@ -51,8 +47,8 @@ echo "Please choose what an option (1-18)."
 
 while :
 do
-  read INPUT_STRING
-  case $INPUT_STRING in
+  read -r INPUT_STRING
+  case "$INPUT_STRING" in
 	1)
 		echo "Updating the system.."
 		apt-get -y update 
@@ -138,7 +134,7 @@ do
 		#source: https://lempstack.com/auto/
 		;;
 	16)
-		cd /tmp; wget --no-check-certificate -O installer.tgz "https://github.com/servisys/ispconfig_setup/tarball/master"; tar zxvf installer.tgz; cd *ispconfig*; bash install.sh
+		cd /tmp || exit; wget --no-check-certificate -O installer.tgz "https://github.com/servisys/ispconfig_setup/tarball/master"; tar zxvf installer.tgz; cd ./*ispconfig* || exit; bash install.sh
 		break
 		#https://www.howtoforge.com/tutorial/ispconfig-automated-install-script/
 		;;
@@ -230,7 +226,7 @@ do
 		install libc6:i386 libstdc++6:i386
 		wget http://cdn.primatelabs.com/Geekbench-3.4.2-Linux.tar.gz
 		tar -zxvf Geekbench-3.4.2-Linux.tar.gz
-		cd dist/Geekbench-3.4.2-Linux/
+		cd dist/Geekbench-3.4.2-Linux/ || exit
 		./geekbench
 		break
 		#http://support.primatelabs.com/kb/geekbench/installing-geekbench-3-on-linux
