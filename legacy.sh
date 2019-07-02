@@ -189,8 +189,12 @@ do
 		break
 		;;
 	24)
-		bash <(curl -Ss https://my-netdata.io/kickstart.sh)
-		break #https://docs.netdata.cloud/packaging/installer/#one-line-installation
+		echo "Preparing to install Netdata.."
+		curl -Ss 'https://raw.githubusercontent.com/netdata/netdata-demo-site/master/install-required-packages.sh' >/tmp/kickstart.sh && bash /tmp/kickstart.sh -i netdata-all
+		git clone https://github.com/netdata/netdata.git --depth=100
+		cd netdata
+		./netdata-installer.sh
+		break #https://docs.netdata.cloud/packaging/installer/#prepare-your-system
 		;;
 	25)
 		echo "Sorry. This feature isn't ready yet. Please come back later!"
