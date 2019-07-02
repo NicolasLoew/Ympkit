@@ -1,4 +1,5 @@
 #!/bin/bash
+#first version of the script focused on Debian
 # A script made my Ympker@LET / Ympker@HB. This script basically only represents a collection of many cool projects that truly deserve the credits.
 # The sources/projects will always be linked though.
 echo "###################################################################################"
