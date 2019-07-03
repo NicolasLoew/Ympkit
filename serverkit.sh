@@ -86,7 +86,7 @@ function func_config {
           case "$option" in
             "Bench.sh")
 				printf "\\n\\nDownloading Bench.sh...\\n"
-				curl bench.sh | bash
+				curl -Lso- bench.sh | bash
 				exit 0
              	;;
             "GeekBench")
