@@ -86,7 +86,7 @@ function func_config {
           case "$option" in
             "Bench.sh")
 				printf "\\n\\nDownloading Bench.sh...\\n"
-				wget -qO- bench.sh | bash
+				curl bench.sh | bash
 				exit 0
              	;;
             "GeekBench")
@@ -203,7 +203,11 @@ function func_config {
         do
           case "$option" in
             "CPU Info")
-				cat /proc/cpuinfo
+				if [ "$distro" != "macOS" ]; then
+					cat /proc/cpuinfo
+				else
+					sysctl -a | grep machdep.cpu
+				fi
 				exit 0
 				;;
 			"Kernel Info")
@@ -211,7 +215,11 @@ function func_config {
 				exit 0
 				;;
 			"List Drives")
-				lsblk
+				if [ "$distro" != "macOS" ]; then
+					lsblk
+				else
+					diskutil list
+				fi
 				exit 0
 				;;
 			"Network Monitor")
@@ -242,7 +250,11 @@ function func_config {
 				exit 0
 				;;
 			"Show System Log")
-				cat /var/log/syslog
+				if [ "$distro" != "macOS" ]; then
+					cat /var/log/syslog
+				else
+					cat /var/log/system.log
+				fi
 				exit 0
 				;;
 			"Update & Upgrade")
