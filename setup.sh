@@ -24,7 +24,7 @@ case $distro in
     printf "\\n\\e[36mInstalling any missing dependencies.\\n\\e[94m"
     yum -q -y install epel-release
     yum -q -y update && yum -q -y upgrade
-    yum -q -y install curl htop nano nload unzip zip 
+    yum -q -y install curl htop nano nload unzip zip wget
     ;;
   '"Debian GNU/Linux"' | '"Linux Mint"' | '"Ubuntu"')
     printf "\\n\\e[36mInstalling any missing dependencies.\\n\\e[94m"
