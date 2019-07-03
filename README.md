@@ -1,5 +1,7 @@
 Welcome to Ympker's Multi-Purpose Server Kit (***Ympkit***). This kit is a collection of scripts which will help you to manage common server tasks. It has been inspired by lots of cool projects from awesome-selfhosted.
 
+![](https://i.gyazo.com/3461bb8067886428d1c30fbfad06cc84.pnghttp://)
+
 **IMPORTANT**:
 
 This script is heavily dependant on other projects as it will just clone and execute them for the most part. This means, if a problem occurs your best bet is to check out the respective Github source (can be found as #comment in the script). I take NO RESPONSIBILITY for the accuracy, functionality and integrity of this Kit, nor for any harm that is caused by it or any of the linked scripts. YOU alone will be responsible when using this script!
