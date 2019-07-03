@@ -1,4 +1,4 @@
-Welcome to Ympker's Multi-Purpose Server Kit (***Ympkit***) for mainly Debian/Ubuntu based systems.  This kit is a collection of scripts that will help you managing common tasks of your Debian/Ubuntu Server.  It has been inspired by lots of cool projects from awesome-selfhosted etc..
+Welcome to Ympker's Multi-Purpose Server Kit (***Ympkit***). This kit is a collection of scripts which will help you to manage common server tasks. It has been inspired by lots of cool projects from awesome-selfhosted.
 
 **IMPORTANT**:
 
